@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring template app</title>
+    <div th:replace="/layout/layout :: head"></div>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="/layout/layout :: navbar"></div>
+
+    <div id="content-wrapper p-3" class="d-flex flex-column">
+        <div id="content">
+
+            <h1>Users</h1>
+
+
+            <table class="table table-responsive">
+                <tr>
+                    <th>ID</th>
+                    <th>Login</th>
+                    <th>City</th>
+                    <th>Birth year</th>
+                    <th>Created at</th>
+                    <th>Updated at</th>
+                    <th>Actions</th>
+                </tr>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.login}"></td>
+                    <td th:text="${user.city}"></td>
+                    <td th:text="${user.birthYear}"></td>
+                    <td th:text="${user.createdAt}"></td>
+                    <td th:text="${user.updatedAt}"></td>
+                    <td>
+                        <a th:href="'/admin/delete-user/' + ${user.id}">
+                            <button class="btn btn-danger">
+                                DELETE
+                            </button>
+                        </a>
+                        <a th:href="'/admin/update-user/' + ${user.id}">
+                            <button class="btn btn-primary">
+                                UPDATE
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+
+            <a href="/admin/create-user">
+                <button class="btn btn-success">
+                    Create new user
+                </button>
+            </a>
+
+            <hr>
+            <a href="/">Back to homepage</a>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
