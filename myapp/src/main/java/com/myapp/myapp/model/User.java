@@ -30,6 +30,20 @@ public class User {
             cascade = {CascadeType.PERSIST, CascadeType.MERGE}
     )
     private Set<Role> roles = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER,
+            mappedBy = "users",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+    )
+    private Set<Crew> crews = new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER,
+            mappedBy = "paidBy",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+    )
+    private Set<Expense> expenses = new HashSet<>();
+    @ManyToOne(fetch = FetchType.EAGER,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+    )
+    private Expense expense;
 
 
 }
