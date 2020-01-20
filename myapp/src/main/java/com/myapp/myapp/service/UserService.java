@@ -2,8 +2,8 @@ package com.myapp.myapp.service;
 
 import com.myapp.myapp.model.User;
 import com.myapp.myapp.repository.UserRepository;
-import com.myapp.myapp.service.dto.CreateUserDto;
-import com.myapp.myapp.service.dto.UpdateUserDto;
+import com.myapp.myapp.service.dto.UserCreateDto;
+import com.myapp.myapp.service.dto.UserUpdateDto;
 import com.myapp.myapp.service.dto.UserDto;
 import com.myapp.myapp.service.exception.AlreadyExists;
 import com.myapp.myapp.service.exception.InvalidData;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,7 +46,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDto createUser(CreateUserDto createDto) throws InvalidData, AlreadyExists {
+    public UserDto createUser(UserCreateDto createDto) throws InvalidData, AlreadyExists {
         validate(createDto);
 
         if (userRepository.existsByLogin(createDto.getLogin())) {
@@ -62,7 +61,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDto updateUser(UpdateUserDto updateDto, int id) throws NotFound, InvalidData {
+    public UserDto updateUser(UserUpdateDto updateDto, int id) throws NotFound, InvalidData {
         validate(updateDto);
 
         User user = userRepository.findById(id)
@@ -88,7 +87,7 @@ public class UserService {
 
 
 
-    private void validate(CreateUserDto createDto) throws InvalidData {
+    private void validate(UserCreateDto createDto) throws InvalidData {
         if (createDto.getLogin() == null || createDto.getLogin().isEmpty()) {
             throw new InvalidData("User must have an non-empty login!");
         }
@@ -98,7 +97,7 @@ public class UserService {
         }
     }
 
-    private void validate(UpdateUserDto updateDto) throws InvalidData {
+    private void validate(UserUpdateDto updateDto) throws InvalidData {
         if (updateDto.getPassword() == null || updateDto.getPassword().isEmpty()) {
             throw new InvalidData("User must have an non-empty password!");
         }

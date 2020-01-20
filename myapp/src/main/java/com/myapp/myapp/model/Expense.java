@@ -20,6 +20,8 @@ public class Expense {
     private Integer id;
     private Double amount;
     private String note;
+    //TODO
+    //Zastawiam się nie zmienić tego pola na Integer padiById
     @ManyToOne(fetch = FetchType.EAGER,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private User paidBy;

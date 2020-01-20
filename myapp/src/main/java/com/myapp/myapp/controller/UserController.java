@@ -1,8 +1,8 @@
 package com.myapp.myapp.controller;
 
 import com.myapp.myapp.service.UserService;
-import com.myapp.myapp.service.dto.CreateUserDto;
-import com.myapp.myapp.service.dto.UpdateUserDto;
+import com.myapp.myapp.service.dto.UserCreateDto;
+import com.myapp.myapp.service.dto.UserUpdateDto;
 import com.myapp.myapp.service.dto.UserDto;
 import com.myapp.myapp.service.exception.AlreadyExists;
 import com.myapp.myapp.service.exception.InvalidData;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/useres")
@@ -31,12 +30,12 @@ public class UserController {
     }
 
     @PostMapping
-    private UserDto createUser(@Valid @RequestBody CreateUserDto createDto) throws InvalidData, AlreadyExists {
+    private UserDto createUser(@Valid @RequestBody UserCreateDto createDto) throws InvalidData, AlreadyExists {
         return userService.createUser(createDto);
     }
 
     @PutMapping("/{id}")
-    private UserDto updateUser(@Valid @RequestBody UpdateUserDto updateDto, @PathVariable int id) throws NotFound, InvalidData {
+    private UserDto updateUser(@Valid @RequestBody UserUpdateDto updateDto, @PathVariable int id) throws NotFound, InvalidData {
         return userService.updateUser(updateDto, id);
     }
 

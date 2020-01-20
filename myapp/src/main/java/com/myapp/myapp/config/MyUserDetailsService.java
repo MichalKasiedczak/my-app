@@ -22,7 +22,7 @@ public class MyUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User does not exist!"));
 
         // zamiana listy ról na tablicę ich nazw
-        List<String> rolesNames = user.getRoles().stream().map(r -> r.getName()).collect(Collectors.toList());
+        List<String> rolesNames = user.getRoles().stream().map(r -> r.getRoleName()).collect(Collectors.toList());
         String[] rolesNamesArray = new String[rolesNames.size()];
         rolesNames.toArray(rolesNamesArray);
 

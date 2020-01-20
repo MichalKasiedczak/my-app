@@ -2,7 +2,7 @@ package com.myapp.myapp.service;
 
 import com.myapp.myapp.model.Role;
 import com.myapp.myapp.repository.RoleRepository;
-import com.myapp.myapp.service.dto.CreateUserDto;
+import com.myapp.myapp.service.dto.UserCreateDto;
 import com.myapp.myapp.service.exception.AlreadyExists;
 import com.myapp.myapp.service.exception.InvalidData;
 import com.myapp.myapp.service.exception.NotFound;
@@ -22,52 +22,44 @@ public class RoleService {
     @Transactional
     public List<String> getAllRoles() {
         return roleRepository.findAll().stream()
-                .map(Role::getName)
+                .map(Role::getRoleName)
                 .collect(Collectors.toList());
     }
 
     @Transactional
     public String getRoleByName(String roleName) throws NotFound {
-        Role role = roleRepository.findById(roleName)
+        Role role = roleRepository.findByRoleName(roleName)
                 .orElseThrow(() -> createNotFoundByNameException(roleName));
 
-        return role.getName();
+        return role.getRoleName();
     }
 
     @Transactional
     public String createRole(String roleName) throws InvalidData, AlreadyExists {
         validate(roleName);
 
-        if (roleRepository.existsById(roleName)) {
-            throw new AlreadyExists("Rolee with same name already exists!");
+        if (roleRepository.existsByRoleName(roleName)) {
+            throw new AlreadyExists("Role with same name already exists!");
         }
 
-        Role role = Role.builder().name(roleName).build();
+        Role role = Role.builder().roleName(roleName).build();
 
         Role savedRole = roleRepository.save(role);
 
-        return savedRole.getName();
+        return savedRole.getRoleName();
     }
 
     @Transactional
     public String deleteRoleByName(String roleName) throws NotFound {
-        Role role = roleRepository.findById(roleName)
+        Role role = roleRepository.findByRoleName(roleName)
                 .orElseThrow(() -> createNotFoundByNameException(roleName));
 
         roleRepository.delete(role);
 
-        return role.getName();
+        return role.getRoleName();
     }
 
-    private void validate(CreateUserDto createDto) throws InvalidData {
-        if (createDto.getLogin() == null || createDto.getLogin().isEmpty()) {
-            throw new InvalidData("User must have an non-empty login!");
-        }
 
-        if (createDto.getPassword() == null || createDto.getPassword().isEmpty()) {
-            throw new InvalidData("User must have an non-empty password!");
-        }
-    }
 
     private void validate(String roleName) throws InvalidData {
         if (roleName == null || roleName.isEmpty()) {
